@@ -2,7 +2,7 @@ import requests
 import json
 import pandas as pd
 
-key = '347a08b783bc80f2c13af6d7446d1290'
+key = ''
 keywords = '爱玛电动车'
 result = requests.get('https://restapi.amap.com/v3/place/text?key=%s&keywords=%s'%(key, keywords))
 result = json.loads(result.text)
