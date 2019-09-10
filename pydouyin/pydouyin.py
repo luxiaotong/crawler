@@ -44,6 +44,6 @@ for i in range(len(aweme_list)):
     print(one_row)
     data.append(one_row)
 
-
+# Quit
 server.stop()
 douyin_driver.quit()
