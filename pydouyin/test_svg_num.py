@@ -50,12 +50,38 @@ num_map = {
     ' \ue61e ':'9',
 }
 
-def get_tab_num(tab_num_html):
-    tab_num_arr = []
-    for i in range(len(tab_num_html)):
-        tab_num_arr.append(num_map[tab_num_html[i].get_text()])
+def get_post_num(post_num_html):
+    post_num_arr = []
+    for i in range(len(post_num_html.contents)):
+        post_num_content = post_num_html.contents[i]
+        if post_num_content == ' ': continue
+        if post_num_content != '.' and post_num_content != 'w ':
+            post_num_arr.append(num_map[post_num_content.get_text()])
+        else:
+            post_num_arr.append(post_num_content)
+    return ''.join(post_num_arr)
 
-    return ''.join(tab_num_arr)
+def get_like_num(like_num_html):
+    like_num_arr = []
+    for i in range(len(like_num_html.contents)):
+        like_num_content = like_num_html.contents[i]
+        if like_num_content == ' ': continue
+        if like_num_content != '.' and like_num_content != 'w ':
+            like_num_arr.append(num_map[like_num_content.get_text()])
+        else:
+            like_num_arr.append(like_num_content)
+    return ''.join(like_num_arr)
+
+def get_focus_num(focus_num_html):
+    focus_num_arr = []
+    for i in range(len(focus_num_html.contents)):
+        focus_num_content = focus_num_html.contents[i]
+        if focus_num_content == ' ': continue
+        if focus_num_content != '.' and focus_num_content != 'w ':
+            focus_num_arr.append(num_map[focus_num_content.get_text()])
+        else:
+            focus_num_arr.append(focus_num_content)
+    return ''.join(focus_num_arr)
 
 def get_follow_num(follow_num_html):
     follow_num_arr = []
@@ -68,16 +94,16 @@ def get_follow_num(follow_num_html):
             follow_num_arr.append(follow_num_content)
     return ''.join(follow_num_arr)
 
-def get_like_num(like_num_html):
-    like_num_arr = []
-    for i in range(len(like_num_html.contents)):
-        like_num_content = like_num_html.contents[i]
-        if like_num_content == ' ': continue
-        if like_num_content != '.' and like_num_content != 'w ':
-            like_num_arr.append(num_map[like_num_content.get_text()])
+def get_digg_num(digg_num_html):
+    digg_num_arr = []
+    for i in range(len(digg_num_html.contents)):
+        digg_num_content = digg_num_html.contents[i]
+        if digg_num_content == ' ': continue
+        if digg_num_content != '.' and digg_num_content != 'w ':
+            digg_num_arr.append(num_map[digg_num_content.get_text()])
         else:
-            like_num_arr.append(like_num_content)
-    return ''.join(like_num_arr)
+            digg_num_arr.append(digg_num_content)
+    return ''.join(digg_num_arr)
 
 
 #分享ID
@@ -92,14 +118,20 @@ response = requests.get(url=share_url,headers=header)
 aweme_post_html = response.text
 
 soup = BeautifulSoup(aweme_post_html, 'html.parser')
-tab_num_html = soup.find('div', class_='user-tab').find('span').findAll(class_='tab-num')
+post_num_html = soup.find('div', class_='user-tab').find('span')
+like_num_html = soup.find('div', class_='like-tab').find('span')
+focus_num_html = soup.find('span', class_='focus').find('span')
 follow_num_html = soup.find('span', class_='follower').find('span')
-like_num_html = soup.find('span', class_='liked-num').find('span')
+digg_num_html = soup.find('span', class_='liked-num').find('span')
 
 
-tab_num_int = get_tab_num(tab_num_html)
-print('作品:', tab_num_int)
+post_num = get_post_num(post_num_html)
+print('作品:', post_num)
+like_num = get_like_num(like_num_html)
+print('喜欢:', like_num)
+focus_num = get_focus_num(focus_num_html)
+print('关注:', focus_num)
 follow_num = get_follow_num(follow_num_html)
 print('粉丝:', follow_num)
-like_num = get_like_num(like_num_html)
-print('获赞:', like_num)
+digg_num = get_digg_num(digg_num_html)
+print('获赞:', digg_num)
