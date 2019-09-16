@@ -81,3 +81,10 @@ class DYModel:
         self.dy_cursor.execute("SELECT * FROM douyin_user")
         user_list = self.dy_cursor.fetchall()     # fetchall() 获取所有记录
         return user_list
+
+    def add_user(self, user):
+
+        sql = "INSERT INTO douyin_user (user_id, username, short_url, avatar_url) VALUES (%(user_id)s, %(username)s, %(short_url)s, %(avatar_url)s) ON DUPLICATE KEY UPDATE username=VALUES(username), short_url=VALUES(short_url), avatar_url=VALUES(avatar_url)"
+        self.dy_cursor.execute(sql, user)
+        self.dy_db.commit()
+        return True
