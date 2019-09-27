@@ -13,7 +13,7 @@ class DYCrawler:
 
     def __init__(self):
         # Browsermob Proxy
-        self.server = Server("./browsermob-proxy-2.1.4/bin/browsermob-proxy")
+        self.server = Server("./browsermob-proxy-2.1.4/bin/browsermob-proxy", {'port': 9999})
         self.server.start()
         self.proxy = self.server.create_proxy()
         url = urlparse(self.proxy.proxy).path
@@ -54,6 +54,7 @@ class DYCrawler:
             entries = har_return['log']['entries']
             for i in range(len(entries)):
                 if '/web/api/v2/aweme/post/' in entries[i]['request']['url']:
+                    print(entries[i]['request']['url'])
                     result = json.loads(entries[i]['response']['content']['text'])
         
             if len(result['aweme_list']) == 0:

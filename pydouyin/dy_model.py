@@ -78,7 +78,7 @@ class DYModel:
         return True
 
     def get_user_list(self):
-        self.dy_cursor.execute("SELECT * FROM douyin_user")
+        self.dy_cursor.execute("SELECT * FROM douyin_user where deleted_at IS NULL")
         user_list = self.dy_cursor.fetchall()     # fetchall() 获取所有记录
         return user_list
 
