@@ -88,3 +88,9 @@ class DYModel:
         self.dy_cursor.execute(sql, user)
         self.dy_db.commit()
         return True
+
+    def add_topic_post(self, post_list):
+        sql = "INSERT INTO douyin_topic_post (topic_name, aweme_id) VALUES (%(topic_name)s, %(aweme_id)s) ON DUPLICATE KEY UPDATE topic_name=VALUES(topic_name), aweme_id=VALUES(aweme_id)"
+        self.dy_cursor.executemany(sql, post_list)
+        self.dy_db.commit()
+        return True

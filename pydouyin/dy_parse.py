@@ -81,3 +81,15 @@ class DYParse:
             'follow_count': follow_num,
             'digg_count': digg_num,
         }
+
+    def process_topic_post(self, page_html):
+        soup = BeautifulSoup(page_html, 'html.parser')
+        topic_name = soup.find('div', class_='author-info').p.text
+        post_list = soup.findAll('li', class_='item goWork')
+        data = []
+        for post in post_list:
+            data.append({
+                'topic_name': topic_name,
+                'aweme_id'  : post["data-id"],
+            })
+        return data
