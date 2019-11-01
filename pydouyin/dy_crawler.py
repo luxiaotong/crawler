@@ -50,7 +50,7 @@ class DYCrawler:
         # Process Response Content & Load More
         while True:
             # Take a break
-            time.sleep(random.randrange(3, 5, 1))
+            have_a_rest(random.randrange(3, 5, 1))
         
             # Process Response Content
             har_return = json.loads(json.dumps(self.proxy.har, ensure_ascii=False))
@@ -75,7 +75,7 @@ class DYCrawler:
                 break
         
             # Load Next Page
-            time.sleep(random.randrange(5, 10, 1))
+            have_a_rest(random.randrange(5, 10, 1))
             self.proxy.new_har("load_next_page", options={'captureHeaders': True, 'captureContent':True})
             print("...........Ready to Load Page ", page_num)
             # 拖动到可见的元素去
