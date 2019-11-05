@@ -1,3 +1,6 @@
 pyyadi/node_modules/
 pyyadi/data.js
 pyyadi/package-lock.json
+
+.DS_Store
+__pycache__/
