@@ -1,6 +1,7 @@
 import mysql.connector as sql
 import time
 import emoji
+import sys
 
 class NiuStarModel:
 
@@ -103,7 +104,8 @@ class NiuStarModel:
         if post:
             return post['aweme_id']
         else:
-            self.add_user_retry_log()
+            user = {'user_id':user_id, 'min_aweme_id':0, 'record_time':last_record_time}
+            self.add_user_retry_log(user)
             return 0
 
     def check_post(self):
@@ -111,14 +113,15 @@ class NiuStarModel:
         self.dy_cursor.execute(sql)
         post = self.dy_cursor.fetchone()
 
-        if post is None and self.min_aweme_id != 0 or post['aweme_id'] > self.min_aweme_id:
-            self.add_user_retry_log()
+        if post is None and self.min_aweme_id != "0" or post is not None and post['aweme_id'] > self.min_aweme_id:
+            user = {'user_id':self.user_id, 'min_aweme_id':self.min_aweme_id, 'record_time':self.record_time}
+            self.add_user_retry_log(user)
 
         return
 
-    def add_user_retry_log(self):
-        user = {'user_id':self.user_id, 'min_aweme_id':self.min_aweme_id, 'record_time':self.record_time}
-        sql = "INSERT INTO niustar_user_retry (user_id, min_aweme_id, record_time) VALUES (%(user_id)s, %(min_aweme_id)s, %(record_time)s)"
-        self.dy_cursor.execute(sql, user)
+    def add_user_retry_log(self, log):
+        log['traceback'] = sys._getframe(1).f_code.co_name
+        sql = "INSERT INTO niustar_user_retry (user_id, min_aweme_id, record_time, traceback) VALUES (%(user_id)s, %(min_aweme_id)s, %(record_time)s, %(traceback)s)"
+        self.dy_cursor.execute(sql, log)
         self.dy_db.commit()
         return True

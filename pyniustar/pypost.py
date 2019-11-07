@@ -20,7 +20,8 @@ for user in user_list:
     print("userid:", user['user_id'])
     print("short_url:", user['short_url'])
     min_aweme_id = model.find_lr_aweme_id(user['user_id'], last_record_time)
-    #min_aweme_id = user['min_aweme_id']
+    if min_aweme_id == 0:
+        min_aweme_id = user['min_aweme_id']
     print("min_aweme_id:", min_aweme_id)
     model.set_id(user['user_id'], min_aweme_id)
     crawler.run(model)

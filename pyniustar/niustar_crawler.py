@@ -66,7 +66,7 @@ class NiuStarCrawler:
                 if '/web/api/v2/aweme/post/' in entries[i]['request']['url']:
                     print(entries[i]['request']['url'])
                     result = json.loads(entries[i]['response']['content']['text'])
-        
+
             if len(result['aweme_list']) == 0:
                 model.check_post()
                 break
@@ -82,6 +82,7 @@ class NiuStarCrawler:
                 break
 
             # Load Next Page
+            page_num += 1
             have_a_rest(random.randrange(5, 10, 1))
             self.proxy.new_har("load_next_page", options={'captureHeaders': True, 'captureContent':True})
             print("...........Ready to Load Page ", page_num)
@@ -89,4 +90,3 @@ class NiuStarCrawler:
             pageload_element = self.douyin_driver.find_element_by_id("pagelet-loading")
             self.douyin_driver.execute_script("arguments[0].scrollIntoView();", pageload_element)
             print("...........Scrolled")
-            page_num += 1
