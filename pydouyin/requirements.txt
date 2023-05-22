@@ -1,7 +1,7 @@
 selenium==3.141.0
 pandas==0.23.1
 emoji==0.5.3
-requests==2.20.0
+requests==2.31.0
 browsermob_proxy==0.8.0
 beautifulsoup4==4.8.0
 mysql_connector_repackaged==0.3.1
